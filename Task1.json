@@ -1,43 +1,37 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 200, 
-  "height": 500, 
+  "width": 250,
+  "height": 250,
   "title": {
-    "text": "Breakdown of Mines by Commodity Group for Each State",
-    "anchor": "middle" 
+    "text": "Comparison of PGE vs REE by State",
+    "anchor": "middle"
   },
   "data": {
     "url": "Australia Mines.csv"
   },
-  "facet": {
-    "field": "State",
-    "type": "nominal",
-    "title": "State",
-    "columns": 4
-  }, 
   "spec": {
     "layer": [
       {
         "selection": {
           "commodity_filter": {
             "type": "multi",
-            "fields": ["Commodity Group"],
+            "fields": ["State"],
             "bind": "legend"
           }
         },
         "mark": {"type": "arc", "tooltip": true},
         "encoding": {
           "theta": {
-            "field": "Commodity Group",
+            "field": "PGE vs REE",
             "aggregate": "count",
             "type": "quantitative",
             "title": "Number of Mines"
           },
           "color": {
-            "field": "Commodity Group",
+            "field": "State",
             "type": "nominal",
             "legend": {
-              "title": "Commodity Group"
+              "title": "State"
             },
             "scale": {"scheme": "set2"}
           },
@@ -46,8 +40,10 @@
             "value": 0.3
           },
           "tooltip": [
-            {"field": "Commodity Group", "type": "nominal", "title": "Commodity Group"},
+            {"field": "State", "type": "nominal", "title": "State"},
+            {"field": "PGE vs REE", "type": "nominal", "title": "PGE vs REE"},
             {"field": "count", "aggregate": "count", "type": "quantitative", "title": "Number of Mines"}
+
           ]
         }
       },
@@ -55,18 +51,13 @@
         "transform": [
           {
             "aggregate": [{"op": "count", "as": "MineCount"}],
-            "groupby": ["State", "Commodity Group"]
+            "groupby": ["State", "PGE vs REE"]
           },
           {
-            "window": [{"op": "max", "field": "MineCount", "as": "MaxMines"}],
-            "frame": [null, null],
-            "groupby": ["State"]
+            "filter": "datum.State == 'WA'"
           },
           {
-            "filter": "datum.MineCount == datum.MaxMines"
-          },
-          {
-            "calculate": "datum['Commodity Group'] + '\\nNumber of Mines: ' + datum['MineCount']",
+            "calculate": "'WA has the most mines (' + datum['MineCount'] + ') across Australia for ' + datum['PGE vs REE']",
             "as": "Annotation"
           }
         ],
@@ -84,9 +75,10 @@
       }
     ]
   },
-  "config": {
-    "title": {
-      "anchor": "middle"
-    }
+  "facet": {
+    "field": "PGE vs REE",
+    "type": "nominal",
+    "title": "Commodity",
+    "columns": 2
   }
 }
