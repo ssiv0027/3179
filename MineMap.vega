@@ -2,7 +2,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 600,
     "height": 450,
-    "title": "Platinum Group Elements and Rare Earth Element Mines Across Australia (March 2024)",
+    "title": "PGE and REE Mines Across Australia",
     "projection": {"type": "mercator",
     "center": [135.0, -28.05975],
     "scale": 650, 
@@ -34,7 +34,9 @@
           "color": {
             "field": "Status",
             "type": "nominal",
-            "legend": {"title": "Mine Status"},
+            "legend": {"orient": "none","title": "Mine Status","titleFontSize": 14,
+            "labelFontSize": 12,
+            "legendX":10, "legendY":350},
             "scale": {"scheme": "paired"}
           },
           "tooltip": [

@@ -6,3 +6,53 @@
 	/*height: 1000px;
 	width: 800px;*/
 }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center; /* Center the title */
+}
+
+.container {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between items */
+  margin-bottom: 20px;
+}
+
+#text-container {
+  max-width: 400px; /* Set a max-width for the text container */
+  padding-right: 20px; /* Space between the text and stacked bar chart */
+}
+
+#map-and-chart {
+  display: flex; /* Use flexbox for the map and stacked bar chart */
+  flex: 1; /* Allow this section to grow */
+}
+
+.chart {
+  border: 1px solid #ccc; /* Optional: add border for visual separation */
+  padding: 10px; /* Optional: add padding */
+  flex: 1; /* Make charts flexible */
+  margin-left: 20px; /* Space between map and stacked bar chart */
+}
+
+#charts {
+  display: flex;
+  flex-wrap: wrap; /* Wrap charts to next line */
+  justify-content: space-between; /* Space between charts */
+}
+
+#charts .chart {
+  flex: 1 1 30%; /* Allow charts to grow and take up space */
+  margin: 10px; /* Margin around each chart */
+}
+.page {
+    width: 850px;
+    background-color: white;
+    margin: auto;
+    padding: 50px;
+    padding-top: 35px;
+}

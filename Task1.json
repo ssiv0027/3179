@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 250,
-  "height": 250,
+  "width": 500,
+  "height": 400,
   "title": {
     "text": "Comparison of PGE vs REE by State",
     "anchor": "middle"
@@ -31,7 +31,10 @@
             "field": "State",
             "type": "nominal",
             "legend": {
-              "title": "State"
+              "orient": "none", 
+              "titleFontSize": 14,
+              "labelFontSize": 12,
+              "legendX":230, "legendY":5
             },
             "scale": {"scheme": "set2"}
           },

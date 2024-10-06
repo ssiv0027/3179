@@ -1,0 +1,72 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500,
+    "height": 350,
+    "title": {
+        "text": "Number of Mines In Each Commodity",
+        "anchor": "middle"
+      },
+    "data": {
+      "url": "Australia Mines.csv"
+    },
+    "mark": "bar",
+    "selection": {
+        "commodityGroupSelect": {
+          "type": "multi",
+          "fields": ["Commodity Group"], 
+          "bind": "legend" 
+        }},
+    "encoding": {
+      "x": {
+        "field": "Commodity Group",
+        "type": "nominal",
+        "title": "Commodity Group",
+        "sort": "-y",
+        "axis": {
+            "labelAngle": -45, 
+            "labelFontSize": 9,
+            "titleFontSize": 14
+          }
+      },
+      "y": {
+        "aggregate": "count",
+        "title": "Number of Mines"
+      },
+      "color": {
+        "field": "Commodity Group",
+        "type": "nominal",
+        "title": "Commodity Group",
+        "legend": {
+            "orient": "none", 
+            "titleFontSize": 14,
+            "labelFontSize": 12,
+            "legendX":300, "legendY":5
+          },
+          "scale": {"scheme": "set2"}
+      },
+      "opacity": {
+        "condition": {
+          "selection": "commodityGroupSelect", 
+          "value": 1
+        },
+        "value": 0.3  
+      },
+      "tooltip": [
+        {"field": "Commodity Group", "type": "nominal", "title": "Commodity Group"},
+        {"aggregate": "count", "type": "quantitative", "title": "Number of Mines"}
+      ]
+    },
+    "config": {
+      "view": {
+        "stroke": "transparent"
+      },
+      "axis": {
+        "labelFontSize": 12,
+        "titleFontSize": 14
+      },
+      "bar": {
+        "cornerRadiusEnd": 4
+      }
+    }
+  }
+  
