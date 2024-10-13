@@ -1,0 +1,230 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "Australia Mines.csv"
+  },
+  "width": 400,
+  "height": 300,
+  "title": {
+    "text": "Mining Commodities by State",
+    "anchor": "middle",
+    "fontSize": 14
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "count"
+        }
+      ],
+      "groupby": [
+        "State",
+        "Commodity Group"
+      ]
+    },
+    {
+      "stack": "count",
+      "groupby": [],
+      "as": ["stack_count_State1", "stack_count_State2"],
+      "offset": "normalize",
+      "sort": [
+        {
+          "field": "State",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "min",
+          "field": "stack_count_State1",
+          "as": "x"
+        },
+        {
+          "op": "max",
+          "field": "stack_count_State2",
+          "as": "x2"
+        },
+        {
+          "op": "dense_rank",
+          "as": "rank_CommodityGroup"
+        },
+        {
+          "op": "distinct",
+          "field": "Commodity Group",
+          "as": "distinct_CommodityGroups"
+        }
+      ],
+      "groupby": ["State"],
+      "frame": [null, null],
+      "sort": [
+        {
+          "field": "Commodity Group",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "rank_State"
+        }
+      ],
+      "frame": [null, null],
+      "sort": [
+        {
+          "field": "State",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "stack": "count",
+      "groupby": ["State"],
+      "as": ["y", "y2"],
+      "offset": "normalize",
+      "sort": [
+        {
+          "field": "Commodity Group",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.y + (datum.rank_CommodityGroup - 1) * datum.distinct_CommodityGroups * 0.01 / 3",
+      "as": "ny"
+    },
+    {
+      "calculate": "datum.y2 + (datum.rank_CommodityGroup - 1) * datum.distinct_CommodityGroups * 0.01 / 3",
+      "as": "ny2"
+    },
+    {
+      "calculate": "datum.x + (datum.rank_State - 1) * 0.05",
+      "as": "nx"
+    },
+    {
+      "calculate": "datum.x2 + (datum.rank_State - 1) * 0.05",
+      "as": "nx2"
+    },
+    {
+      "calculate": "(datum.nx + datum.nx2) / 2",
+      "as": "xc"
+    },
+    {
+      "calculate": "(datum.ny + datum.ny2) / 2",
+      "as": "yc"
+    }
+  ],
+  "vconcat": [
+    {
+      "layer": [
+        {
+          "mark": {
+            "type": "rect"
+          },
+          "encoding": {
+            "x": {
+              "field": "nx",
+              "type": "quantitative",
+              "axis": {
+                "title": "State",
+                "titleFontSize": 10,
+                "labelFontSize": 10,
+                "labelAngle": 0
+              }
+            },
+            "x2": { "field": "nx2" },
+            "y": {
+              "field": "ny",
+              "type": "quantitative"
+            },
+            "y2": { "field": "ny2" },
+            "color": {
+              "field": "Commodity Group",
+              "type": "nominal",
+              "legend": null,
+              "scale": {
+                "scheme": "set2"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "State",
+                "type": "nominal"
+              },
+              {
+                "field": "Commodity Group",
+                "type": "nominal"
+              },
+              {
+                "field": "count",
+                "type": "quantitative"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "baseline": "middle",
+            "fontWeight": "normal"
+          },
+          "encoding": {
+            "x": {
+              "field": "xc",
+              "type": "quantitative",
+              "axis": null
+            },
+            "y": {
+              "field": "yc",
+              "type": "quantitative",
+              "axis": {
+                "title": "Commodity Group",
+                "titleFontSize": 10
+              }
+            },
+            "size": { "value": 10 }
+          }
+        }
+      ]
+    },
+    {
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": "lighter",
+            "color": "darkred"
+          },
+          "encoding": {
+            "x": { "value": 100 },
+            "y": { "value": 0 },
+            "text": { "value": "WA is the densest state for mining" }
+          }
+        }
+      ]
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "x": "shared"
+    }
+  },
+  "config": {
+    "view": {
+      "stroke": ""
+    },
+    "concat": { "spacing": 10 },
+    "axis": {
+      "labelFontSize": 10,
+      "titleFontSize": 10
+    },
+    "bar": {
+      "cornerRadiusEnd": 2
+    }
+  }
+}

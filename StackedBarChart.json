@@ -1,19 +1,19 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
-        "text": "Mines by State and Commodity Group",
+        "text": "Mines by State and Status",
         "anchor": "middle"
       },
     "data": {
         "url": "Australia Mines.csv"
       },
-    "width": 500,
-    "height": 400,
+    "width": 350,
+    "height": 250,
     "mark": "bar",
     "selection": {
-        "commodityGroupSelect": {
+        "statusGroupSelect": {
           "type": "multi",
-          "fields": ["Commodity Group"], 
+          "fields": ["Status"], 
           "bind": "legend" 
         }},
     "encoding": {
@@ -28,33 +28,37 @@
         "title": "Number of Mines"
       },
       "color": {
-        "field": "Commodity Group",
+        "field": "Status",
         "type": "nominal",
-        "title": "Commodity Group",
+        "title": "Status",
         "legend": {
             "orient": "none", 
-            "titleFontSize": 14,
-            "labelFontSize": 12,
+            "titleFontSize": 12,
+            "labelFontSize": 10,
             "legendX":10, "legendY":5
           },
           "scale": {"scheme": "set2"}
       },
       "opacity": {
         "condition": {
-          "selection": "commodityGroupSelect", 
+          "selection": "statusGroupSelect", 
           "value": 1
         },
         "value": 0.3  
       },
       "tooltip": [
         {"field": "State", "title": "State"},
-        {"field": "Commodity Group", "title": "Commodity Group"},
+        {"field": "Status", "title": "Status"},
         {"aggregate": "count", "title": "Total Mines"}
       ]
     },
     "config": {
       "view": {"stroke": "transparent"},
-      "axis": {"grid": false}
+      "axis": {"labelFontSize": 10,
+        "titleFontSize": 10},
+        "bar": {
+        "cornerRadiusEnd": 2
+      }
     }
 }
   
